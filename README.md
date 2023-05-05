@@ -1,6 +1,8 @@
 # Drone Medication Delivery System
 
-This project is a simple implementation of a Drone Medication Delivery System using the Spring Framework and H2 in-memory database. The system allows for the registration of drones, loading of medication items, checking the battery level, and dispatching of drones to deliver medications to patients.
+This project is a simple implementation of a Drone Medication Delivery System using the Spring Framework and H2
+in-memory database. The system allows for the registration of drones, loading of medication items, checking the battery
+level, and dispatching of drones to deliver medications to patients.
 
 ## Features
 
@@ -52,12 +54,18 @@ mvn spring-boot:run
 
 ### Display available fleet of drones
 
-To display fleet of available drones, send a `GET` request to `/drones` 
+To display fleet of available drones, send a `GET` request to `/drones`
 
 ### Display available list of medicines
+
 To display list of available medicines, send a `GET` request to `/medications`
 
+### Register drone for delivery
+
+To register particular drone for delivery, send a `GET` request to `/drones/{serialNumber}`
 
 ## Conclusion
 
-This project demonstrates a simple implementation of a Drone Medication Delivery System using the Spring Framework and H2 in-memory database. With the implementation of registration, loading, checking, and dispatching features, this project could serve as a foundation for a real-world implementation of a similar system.
+This project demonstrates a simple implementation of a Drone Medication Delivery System using the Spring Framework and
+H2 in-memory database. With the implementation of registration, loading, checking, and dispatching features, this
+project could serve as a foundation for a real-world implementation of a similar system.

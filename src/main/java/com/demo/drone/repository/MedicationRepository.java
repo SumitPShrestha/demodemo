@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface MedicationRepository extends JpaRepository<Medication, Long> {
+    @Query("from Medication m where m.code in (:codes)")
+    List<Medication> findMedicationByCode(List<String> codes);
 }
 
