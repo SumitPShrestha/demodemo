@@ -1,7 +1,7 @@
 INSERT INTO drone (serial_number, model, weight_limit, battery_capacity, state)
 VALUES ('1234567890', 'LIGHTWEIGHT', 200, 90, 'IDLE'),
        ('0987654321', 'HEAVYWEIGHT', 500, 50, 'IDLE'),
-       ('1111111111', 'MIDDLEWEIGHT', 400, 80, 'IDLE'),
+       ('1111111111', 'MIDDLEWEIGHT', 400, 40, 'IDLE'),
        ('2222222222', 'CRUSIERWEIGHT', 390, 70, 'IDLE'),
        ('3333333333', 'HEAVYWEIGHT', 500, 60, 'IDLE'),
        ('4444444444', 'LIGHTWEIGHT', 200, 95, 'IDLE'),

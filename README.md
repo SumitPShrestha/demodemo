@@ -70,11 +70,26 @@ To load particular drone with medicine for delivery, send a `POST` request to `/
 
 ["IBUPROFEN_01","PARACETAMOL_01","AMOXICILLIN_01"]
 
+### List medicines loaded into particular drone
+To dispatch particular drone for delivery, send a `GET` request to `/list-loaded-medications/{serialNumber}`
+
+
 ### Dispatch drone for delivery
 To dispatch particular drone for delivery, send a `GET` request to `/dispatch-drone/{serialNumber}` 
+
+
+### Call drone back after delivery
+To dispatch particular drone for delivery, send a `GET` request to `/call-back/{serialNumber}`
+
+
+### View Activity Log
+To dispatch particular drone for delivery, send a `GET` request to `/activity-logs`
+
+### Battery
+Battery for each drone is burned at the rate of 10% in every 15 seconds when Drone status is changed  from `IDEL` to any other status.
 
 ## Conclusion
 
 This project demonstrates a simple implementation of a Drone Medication Delivery System using the Spring Framework and
-H2 in-memory database. With the implementation of registration, loading, checking, dispatching calling back and viewing activity log features, this
+H2 in-memory database and Spring AOP (for logging activity). With the implementation of registration, loading, checking, dispatching calling back and viewing activity log features, this
 project could serve as a foundation for a real-world implementation of a similar system.

@@ -94,4 +94,40 @@ public class DroneDispatchController {
 
         return ResponseEntity.ok(dispatch);
     }
+
+    @RequestMapping("/call-back/{serialNumber}")
+    public ResponseEntity<Dispatch> doCallBackDrone(@PathVariable String serialNumber) {
+        Dispatch savedDispatch = droneDispatchService.getDispatchBySerialNumber(serialNumber);
+        if (savedDispatch == null) {
+            throw new DroneRegistrationException("drone-not-registered", String.format("Drone with SN %s is not registered yet", serialNumber), HttpStatus.ALREADY_REPORTED);
+        }
+        Drone callToCallBack = savedDispatch.getDrone();
+        if (callToCallBack.getState() != DroneState.DELIVERING) {
+            throw new DroneStateException(String.format("drone with serial number %s is not dispatched for delivery", serialNumber));
+        }
+        if (callToCallBack.getBatteryCapacity() < 25) {
+            throw new DroneStateException("Battery Capacity less then 25%, cannot load");
+        }
+        Drone deliveredDrone = droneDispatchService.changeDroneStatus(callToCallBack, DroneState.DELIVERED);
+        savedDispatch.setDrone(deliveredDrone);
+        Dispatch returningDIspatch = droneDispatchService.callBackDrone(savedDispatch);
+        Drone returningDrone = droneDispatchService.changeDroneStatus(returningDIspatch.getDrone(), DroneState.RETURNING);
+        savedDispatch.setDrone(returningDrone);
+        return ResponseEntity.ok(savedDispatch);
+    }
+
+    @RequestMapping("/list-loaded-medications/{serialNumber}")
+    public ResponseEntity<List<Medication>> getLoadedMedicines(@PathVariable String serialNumber) {
+        Dispatch savedDispatch = droneDispatchService.getDispatchBySerialNumber(serialNumber);
+        if (savedDispatch == null) {
+            throw new DroneRegistrationException("drone-not-registered", String.format("Drone with SN %s is not registered yet", serialNumber), HttpStatus.ALREADY_REPORTED);
+        }
+        Drone loadedDrone = savedDispatch.getDrone();
+        if (loadedDrone.getState() == DroneState.IDLE || loadedDrone.getState() == DroneState.LOADING) {
+            throw new DroneStateException(String.format("drone with serial number %s is not loaded", serialNumber));
+        }
+        List<Medication> loadedMedicines = droneDispatchService.getLoadedMedications(savedDispatch);
+        return ResponseEntity.ok(loadedMedicines);
+    }
+
 }

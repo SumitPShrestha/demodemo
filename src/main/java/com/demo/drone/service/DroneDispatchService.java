@@ -21,4 +21,8 @@ public interface DroneDispatchService {
     List<Medication> findMedicationByCode(List<String> medicineCodeList);
 
     Dispatch dispatchDrone(Dispatch deliveringDrone);
+
+    Dispatch callBackDrone(Dispatch savedDispatch);
+
+    List<Medication> getLoadedMedications(Dispatch loadedDrone);
 }

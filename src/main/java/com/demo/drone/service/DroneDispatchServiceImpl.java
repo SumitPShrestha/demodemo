@@ -77,9 +77,18 @@ public class DroneDispatchServiceImpl implements DroneDispatchService {
     @Override
     public Dispatch dispatchDrone(Dispatch dispatch) {
         dispatch.setDeliveryStartTime(Timestamp.valueOf(LocalDateTime.now()));
-        Drone deliveringDrone = changeDroneStatus(dispatch.getDrone(), DroneState.DELIVERED);
-        dispatch.setDrone(deliveringDrone);
         return dispatchRepository.save(dispatch);
+    }
+
+    @Override
+    public Dispatch callBackDrone(Dispatch savedDispatch) {
+        savedDispatch.setDeliveryEndTime(Timestamp.valueOf(LocalDateTime.now()));
+        return dispatchRepository.save(savedDispatch);
+    }
+
+    @Override
+    public List<Medication> getLoadedMedications(Dispatch dispatch) {
+        return medicationRepository.findMedicationByCode(dispatch.getMedications());
     }
 
 }

@@ -45,6 +45,11 @@ public class ActivityLogAspect {
 
     }
 
+    @Pointcut("execution(* com.demo.drone.service.DroneDispatchService.callBackDrone(..))")
+    public void logDroneCallBack() {
+    }
+
+
     @AfterReturning("logRegisterDrone()")
     public void afterDroneRegistered(JoinPoint thisJoinPoint) {
         ActivityLogDTO activityLogDTO = new ActivityLogDTO();
@@ -72,9 +77,9 @@ public class ActivityLogAspect {
         activityLogRepository.save(activityLog);
     }
 
-    @AfterReturning(value = "logDispatchDrone()")
-    public void logDispatchDrone(JoinPoint thisJoinPoint) {
-        Dispatch dispatch = (Dispatch) thisJoinPoint.getArgs()[0];
+    @AfterReturning(value = "logDispatchDrone()", returning = "result")
+    public void logDispatchDrone(JoinPoint thisJoinPoint, Object result) {
+        Dispatch dispatch = (Dispatch) result;
         Drone deliveringDrone = dispatch.getDrone();
         ActivityLogDTO activityLogDTO = new ActivityLogDTO();
         String activity = String.format("Done with SN %s dispatched for delivery", deliveringDrone.getSerialNumber());
@@ -102,6 +107,22 @@ public class ActivityLogAspect {
         activityLogDTO.setActivity(activity);
         activityLogDTO.setBefore(String.format("{\"State\":\" %s \"}", DroneState.LOADING.name()));
         activityLogDTO.setAfter(String.format("{\"State\":\" %s \",\"Medication\":\" %s \"}", DroneState.LOADED.name(), medicationsNames));
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setActivity(activityLogDTO.toString());
+        activityLog.setActivityTime(Timestamp.valueOf(LocalDateTime.now()));
+        log.info(activityLogDTO.toString());
+        activityLogRepository.save(activityLog);
+    }
+
+    @AfterReturning(value = "logDroneCallBack()", returning = "result")
+    public void logDroneCallBack(JoinPoint thisJoinPoint, Object result) {
+        Dispatch dispatch = (Dispatch) result;
+        Drone deliveringDrone = dispatch.getDrone();
+        ActivityLogDTO activityLogDTO = new ActivityLogDTO();
+        String activity = String.format("Done with SN %s completed delivery and is returning to warehouse", deliveringDrone.getSerialNumber());
+        activityLogDTO.setActivity(activity);
+        activityLogDTO.setBefore(String.format("{\"State\":\" %s \"}", DroneState.DELIVERING.name()));
+        activityLogDTO.setAfter(String.format("{\"State\":\" %s \",\"Delivery End Time\":\" %s \"}", DroneState.RETURNING.name(), dispatch.getDeliveryEndTime().toString()));
         ActivityLog activityLog = new ActivityLog();
         activityLog.setActivity(activityLogDTO.toString());
         activityLog.setActivityTime(Timestamp.valueOf(LocalDateTime.now()));
