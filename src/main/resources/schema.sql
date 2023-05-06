@@ -32,8 +32,6 @@ CREATE TABLE activity_log
 (
     id            INT PRIMARY KEY AUTO_INCREMENT,
     activity      VARCHAR(200) NOT NULL,
-    before_value  VARCHAR(100),
-    after_value   VARCHAR(100),
     activity_time TIMESTAMP,
     comment       varchar(200)
 );
