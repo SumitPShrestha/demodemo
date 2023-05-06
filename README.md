@@ -62,10 +62,19 @@ To display list of available medicines, send a `GET` request to `/medications`
 
 ### Register drone for delivery
 
-To register particular drone for delivery, send a `GET` request to `/drones/{serialNumber}`
+To register particular drone for delivery, send a `GET` request to `/register-drone/{serialNumber}`
+
+### Load drone with medications
+
+To load particular drone with medicine for delivery, send a `POST` request to `/load-drone/{serialNumber}` with the payload as array of code of medicine, for e.g:
+
+["IBUPROFEN_01","PARACETAMOL_01","AMOXICILLIN_01"]
+
+### Dispatch drone for delivery
+To dispatch particular drone for delivery, send a `GET` request to `/dispatch-drone/{serialNumber}` 
 
 ## Conclusion
 
 This project demonstrates a simple implementation of a Drone Medication Delivery System using the Spring Framework and
-H2 in-memory database. With the implementation of registration, loading, checking, and dispatching features, this
+H2 in-memory database. With the implementation of registration, loading, checking, dispatching calling back and viewing activity log features, this
 project could serve as a foundation for a real-world implementation of a similar system.

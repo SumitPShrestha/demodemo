@@ -1,7 +1,9 @@
 package com.demo.drone.controlleradvice;
 
 import com.demo.drone.exception.DroneRegistrationException;
+import com.demo.drone.exception.DroneStateException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,6 +30,15 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(response, exception.getHttpStatus());
+    }
+
+    @ExceptionHandler(DroneStateException.class)
+    public ResponseEntity<?> handleUnknownException(
+            final Exception exception, final HttpServletRequest request
+    ) {
+
+
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.EXPECTATION_FAILED);
     }
 
 }

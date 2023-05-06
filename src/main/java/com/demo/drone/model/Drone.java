@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "drone")
-public class Drone {
+public class Drone implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -82,5 +82,9 @@ public class Drone {
                 ", batteryCapacity=" + batteryCapacity +
                 ", state=" + state +
                 '}';
+    }
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

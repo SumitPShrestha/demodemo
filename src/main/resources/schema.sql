@@ -31,7 +31,7 @@ CREATE TABLE dispatch
 CREATE TABLE activity_log
 (
     id            INT PRIMARY KEY AUTO_INCREMENT,
-    activity      VARCHAR(200) NOT NULL,
+    activity      VARCHAR(1000) NOT NULL,
     activity_time TIMESTAMP,
     comment       varchar(200)
 );
